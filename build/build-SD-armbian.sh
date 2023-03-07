@@ -30,7 +30,7 @@ source etc/library.sh # sets RELEASE
 prepare_dirs                   # tmp cache output
 
 # get latest armbian
-[[ -d armbian ]] || git clone https://github.com/armbian/build armbian
+[[ -d armbian ]] || git clone -b master https://github.com/armbian/build armbian
 ( cd armbian && git pull --ff-only --tags )
 
 # add NCP modifications
