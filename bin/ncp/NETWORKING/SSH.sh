@@ -8,7 +8,9 @@
 #
 
 
-install() { :; }
+install() {
+  adduser --disabled-password --force-badname --gecos "" ncp-cli &>/dev/null
+}
 
 is_active()
 {
