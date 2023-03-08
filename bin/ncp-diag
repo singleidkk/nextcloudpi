@@ -161,6 +161,7 @@ echo "NAT loopback|$( [[ "$RESOLV" == "$IP" ]] && echo yes || echo no )"
 
 # Other
 echo "Uptime|$( uptime | cut -f1 -d',' | awk '{ $1=""; $2=""; print }' | tr -d "  " )"
+echo "Temperature|$(($(cat /sys/class/thermal/thermal_zone0/temp) / 1000))"
 # Get kernel version
 
 # License
