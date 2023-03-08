@@ -111,27 +111,28 @@ EOF
   # email
   ncc config:system:set mail_smtpmode     --value="sendmail"
   ncc config:system:set mail_smtpauthtype --value="LOGIN"
-  ncc config:system:set mail_from_address --value="admin"
-  ncc config:system:set mail_domain       --value="ownyourbits.com"
+  ncc config:system:set mail_from_address --value="no-replyadmin"
+  ncc config:system:set mail_domain       --value="singleid-box.net"
 
-  # NCP theme
-  [[ -e /usr/local/etc/logo ]] && {
-    local ID=$( grep instanceid config/config.php | awk -F "=> " '{ print $2 }' | sed "s|[,']||g" )
-    [[ "$ID" == "" ]] && { echo "failed to get ID"; return 1; }
-    mkdir -p data/appdata_${ID}/theming/images
-    cp /usr/local/etc/background data/appdata_${ID}/theming/images
-    cp /usr/local/etc/logo data/appdata_${ID}/theming/images/logo
-    cp /usr/local/etc/logo data/appdata_${ID}/theming/images/logoheader
-    chown -R www-data:www-data data/appdata_${ID}
-  }
+# テーマはデフォルトを使用する
+#   NCP theme
+#  [[ -e /usr/local/etc/logo ]] && {
+#    local ID=$( grep instanceid config/config.php | awk -F "=> " '{ print $2 }' | sed "s|[,']||g" )
+#    [[ "$ID" == "" ]] && { echo "failed to get ID"; return 1; }
+#    mkdir -p data/appdata_${ID}/theming/images
+#    cp /usr/local/etc/background data/appdata_${ID}/theming/images
+#    cp /usr/local/etc/logo data/appdata_${ID}/theming/images/logo
+#    cp /usr/local/etc/logo data/appdata_${ID}/theming/images/logoheader
+#    chown -R www-data:www-data data/appdata_${ID}
+#  }
 
-  mysql nextcloud <<EOF
-replace into  oc_appconfig values ( 'theming', 'name'          , "NextCloudPi"             );
-replace into  oc_appconfig values ( 'theming', 'slogan'        , "keep your data close"    );
-replace into  oc_appconfig values ( 'theming', 'url'           , "https://ownyourbits.com" );
-replace into  oc_appconfig values ( 'theming', 'logoMime'      , "image/svg+xml"           );
-replace into  oc_appconfig values ( 'theming', 'backgroundMime', "image/png"               );
-EOF
+#  mysql nextcloud <<EOF
+#replace into  oc_appconfig values ( 'theming', 'name'          , "NextCloudPi"             );
+#replace into  oc_appconfig values ( 'theming', 'slogan'        , "keep your data close"    );
+#replace into  oc_appconfig values ( 'theming', 'url'           , "https://ownyourbits.com" );
+#replace into  oc_appconfig values ( 'theming', 'logoMime'      , "image/svg+xml"           );
+#replace into  oc_appconfig values ( 'theming', 'backgroundMime', "image/png"               );
+#EOF
 
   # NCP app
   cp -r /var/www/ncp-app /var/www/nextcloud/apps/nextcloudpi
@@ -147,6 +148,8 @@ EOF
   ncc app:enable  notes
   ncc app:install tasks
   ncc app:enable  tasks
+  ncc app:install passwords
+  ncc app:enable  passwords
 
   # we handle this ourselves
   ncc app:disable updatenotification
@@ -156,6 +159,12 @@ EOF
     ncc app:install news
     ncc app:enable  news
   fi
+
+  # 日本の環境に変更
+  ncc config:system:set default_phone_region --value JP
+  ncc config:system:set default_language --value ja
+  ncc config:system:set default_locale --value ja
+  ncc log:manage --timezone Asia/Tokyo
 
   # ncp-previewgenerator
   local ncver
