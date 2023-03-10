@@ -140,25 +140,35 @@ EOF
   ncc app:enable nextcloudpi
 
   # enable some apps by default
-  ncc app:install calendar
-  ncc app:enable  calendar
-  ncc app:install contacts
-  ncc app:enable  contacts
-  ncc app:install notes
-  ncc app:enable  notes
-  ncc app:install tasks
-  ncc app:enable  tasks
+  # ncc app:install calendar
+  # ncc app:enable  calendar
+  # ncc app:install contacts
+  # ncc app:enable  contacts
+  # ncc app:install notes
+  # ncc app:enable  notes
+  # ncc app:install tasks
+  # ncc app:enable  tasks
   ncc app:install passwords
   ncc app:enable  passwords
+  ncc app:install files_external
+  ncc app:enable  files_external
+  ncc app:install user_saml
+  ncc app:enable  user_saml
+  
+  # disable some apps by default
+  ncc app:disable weather_status
+  ncc app:disable circles
+  ncc app:disable recommendations
+  ncc app:disable dashboard
 
   # we handle this ourselves
   ncc app:disable updatenotification
 
   # News dropped support for 32-bit -> https://github.com/nextcloud/news/issues/1423
-  if ! [[ "$ARCH" =~ armv7 ]]; then
-    ncc app:install news
-    ncc app:enable  news
-  fi
+  #if ! [[ "$ARCH" =~ armv7 ]]; then
+  #  ncc app:install news
+  #  ncc app:enable  news
+  #fi
 
   # 日本の環境に変更
   ncc config:system:set default_phone_region --value JP
