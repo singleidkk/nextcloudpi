@@ -78,6 +78,9 @@ DISABLE_FS_CHECK=1 NCPCFG="/usr/local/etc/ncp.cfg" run_app_unsafe bin/ncp/CONFIG
 [[ -z "$should_rm_datadir_cfg" ]] || rm /usr/local/etc/ncp-config.d/nc-datadir.cfg
 rm /.ncp-image
 
+# singleid-boxの設定
+install_app singleid-box.sh
+
 # skip on Armbian / Vagrant / LXD ...
 [[ "${CODE_DIR}" != "" ]] || bash /usr/local/bin/ncp-provisioning.sh
 
