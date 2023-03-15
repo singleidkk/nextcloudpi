@@ -157,7 +157,10 @@ function set-nc-domain()
     ncc config:system:set trusted_proxies 11 --value="127.0.0.1"
     ncc config:system:set trusted_proxies 12 --value="::1"
     ncc config:system:set trusted_proxies 13 --value="${domain}"
-    ncc config:system:set trusted_proxies 14 --value="$(dig +short "${domain}")"
+    ncc config:system:set trusted_proxies 14 --value="$(dig +noedns +short "${domain}")"
+    # hostsファイルのローカルループバックアドレスにドメインを追加することで、ルータでNAT設定がされていないときの、
+    # notify_pushのsetupの失敗を回避
+    grep "${domain}" /etc/hosts || echo "127.0.0.1 ${domain}" | sudo tee -a /etc/hosts
     sleep 5 # this seems to be required in the VM for some reason. We get `http2 error: protocol error` after ncp-upgrade-nc
     for try in {1..5}
     do
