@@ -10,8 +10,7 @@
 
 WEBADMIN=ncp
 WEBPASSWD=ownyourbits
-#BRANCH="${BRANCH:-master}"
-BRANCH=singleid-box-storage
+BRANCH="${BRANCH:-master}"
 
 BINDIR=/usr/local/bin/ncp
 CONFDIR=/usr/local/etc/ncp-config.d/

@@ -9,8 +9,7 @@
 #
 # more details at https://ownyourbits.com
 
-#BRANCH="${BRANCH:-master}"
-BRANCH=singleid-box-storage
+BRANCH="${BRANCH:-master}"
 #DBG=x
 
 set -e$DBG
