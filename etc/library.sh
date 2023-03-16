@@ -160,7 +160,9 @@ function set-nc-domain()
     ncc config:system:set trusted_proxies 14 --value="$(dig +noedns +short "${domain}")"
     # hostsファイルのローカルループバックアドレスにドメインを追加することで、ルータでNAT設定がされていないときの、
     # notify_pushのsetupの失敗を回避
-    grep "${domain}" /etc/hosts || echo "127.0.0.1 ${domain}" | sudo tee -a /etc/hosts
+    grep "${domain}" /etc/hosts || sed -e "s/^\(127\.0\.1\.1\)\(.*\)$/\1 ${domain} \2/g" /etc/hosts | sudo tee /etc/hosts
+    # 自己署名証明書を新しいホスト名を元にして再作成
+    make-ssl-cert generate-default-snakeoil --force-overwrite && systemctl restart apache2
     sleep 5 # this seems to be required in the VM for some reason. We get `http2 error: protocol error` after ncp-upgrade-nc
     for try in {1..5}
     do
