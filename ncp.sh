@@ -249,6 +249,9 @@ EOF
     ## HOSTNAME AND mDNS
     [[ -f /.docker-image ]] || {
       $APTINSTALL avahi-daemon
+      # FIX: IPv6グローバルIPでは、NCP Webへアクセスできないため、AvahiでIPv6を無効にする。
+      sed -i -e "s/^.*use-ipv6=.*$/use-ipv6=no/" /etc/avahi/avahi-daemon.conf
+      sed -i -e "s/^.*publish-aaaa-on-ipv4=.*$/publish-aaaa-on-ipv4=no/" /etc/avahi/avahi-daemon.conf
       sed -i '/^127.0.1.1/d'           /etc/hosts
       sed -i "\$a127.0.1.1 nextcloudpi $(hostname)" /etc/hosts
     }

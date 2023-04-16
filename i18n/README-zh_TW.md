@@ -92,7 +92,7 @@ sudo ncp-config
 安裝 git、docker、qemu-user-static、chroot 以及所有常用之建立工具
 
 ```
-git clone https://github.com/nextcloud/nextcloudpi.git
+git clone https://github.com/singleidkk/nextcloudpi.git
 cd nextcloudpi
 ./build-SD-rpi.sh
 ```
@@ -106,7 +106,7 @@ cd nextcloudpi
 建立 docker 映像檔
 
 ```
-git clone https://github.com/nextcloud/nextcloudpi.git
+git clone https://github.com/singleidkk/nextcloudpi.git
 cd nextcloudpi
 ./build-docker.sh x86
 ./build-docker.sh armhf

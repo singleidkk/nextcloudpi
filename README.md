@@ -197,7 +197,7 @@ Packages
 ### Raspberry Pi IMG
 
 ```
-git clone https://github.com/nextcloud/nextcloudpi.git
+git clone https://github.com/singleidkk/nextcloudpi.git
 cd nextcloudpi
 ./build/build-SD-rpi.sh
 ```
@@ -211,7 +211,7 @@ cd nextcloudpi
 In order to build & push the Docker image to your repository, you'll also need to change the username, repo and tags in the script to match your credentials at Docker Hub.
 
 ```
-git clone https://github.com/nextcloud/nextcloudpi.git
+git clone https://github.com/singleidkk/nextcloudpi.git
 cd nextcloudpi
 build/build-docker.sh x86
 build/build-docker.sh armhf

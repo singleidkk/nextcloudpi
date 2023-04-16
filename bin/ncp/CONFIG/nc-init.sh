@@ -111,28 +111,29 @@ EOF
   # email
   ncc config:system:set mail_smtpmode     --value="sendmail"
   ncc config:system:set mail_smtpauthtype --value="LOGIN"
-  ncc config:system:set mail_from_address --value="admin"
-  ncc config:system:set mail_domain       --value="ownyourbits.com"
+  ncc config:system:set mail_from_address --value="no-reply"
+  ncc config:system:set mail_domain       --value="singleid-box.net"
 
-  # Fix NCP theme
-  [[ -e /usr/local/etc/logo ]] && {
-    local ID=$( grep instanceid config/config.php | awk -F "=> " '{ print $2 }' | sed "s|[,']||g" )
-    [[ "$ID" == "" ]] && { echo "failed to get ID"; return 1; }
-    local theming_base_path="data/appdata_${ID}/theming/global/images"
-    mkdir -p "${theming_base_path}"
-    cp /usr/local/etc/background "${theming_base_path}/"
-    cp /usr/local/etc/logo "${theming_base_path}/logo"
-    cp /usr/local/etc/logo "${theming_base_path}/logoheader"
-    chown -R www-data:www-data "data/appdata_${ID}"
-  }
+# Nextcloudのデフォルトのテーマを使用する
+#  # Fix NCP theme
+#  [[ -e /usr/local/etc/logo ]] && {
+#    local ID=$( grep instanceid config/config.php | awk -F "=> " '{ print $2 }' | sed "s|[,']||g" )
+#    [[ "$ID" == "" ]] && { echo "failed to get ID"; return 1; }
+#    local theming_base_path="data/appdata_${ID}/theming/global/images"
+#    mkdir -p "${theming_base_path}"
+#    cp /usr/local/etc/background "${theming_base_path}/"
+#    cp /usr/local/etc/logo "${theming_base_path}/logo"
+#    cp /usr/local/etc/logo "${theming_base_path}/logoheader"
+#    chown -R www-data:www-data "data/appdata_${ID}"
+#  }
 
-  mysql nextcloud <<EOF
-replace into  oc_appconfig values ( 'theming', 'name'          , "NextCloudPi"             );
-replace into  oc_appconfig values ( 'theming', 'slogan'        , "keep your data close"    );
-replace into  oc_appconfig values ( 'theming', 'url'           , "https://ownyourbits.com" );
-replace into  oc_appconfig values ( 'theming', 'logoMime'      , "image/svg+xml"           );
-replace into  oc_appconfig values ( 'theming', 'backgroundMime', "image/png"               );
-EOF
+#  mysql nextcloud <<EOF
+#replace into  oc_appconfig values ( 'theming', 'name'          , "NextCloudPi"             );
+#replace into  oc_appconfig values ( 'theming', 'slogan'        , "keep your data close"    );
+#replace into  oc_appconfig values ( 'theming', 'url'           , "https://ownyourbits.com" );
+#replace into  oc_appconfig values ( 'theming', 'logoMime'      , "image/svg+xml"           );
+#replace into  oc_appconfig values ( 'theming', 'backgroundMime', "image/png"               );
+#EOF
 
   # NCP app
   cp -r /var/www/ncp-app /var/www/nextcloud/apps/nextcloudpi
@@ -140,23 +141,39 @@ EOF
   ncc app:enable nextcloudpi
 
   # enable some apps by default
-  ncc app:install calendar
-  ncc app:enable  calendar
-  ncc app:install contacts
-  ncc app:enable  contacts
-  ncc app:install notes
-  ncc app:enable  notes
-  ncc app:install tasks
-  ncc app:enable  tasks
+  ncc app:install passwords
+  ncc app:enable  passwords
+  ncc app:install files_external
+  ncc app:enable  files_external
+  ncc app:install user_saml
+  ncc app:enable  user_saml
+
+  # デフォルトで無効にするアプリ
+  ncc app:disable calendar
+  ncc app:disable contacts
+  ncc app:disable notes
+  ncc app:disable tasks
+  ncc app:disable weather_status
+  ncc app:disable circles
+  ncc app:disable recommendations
+  ncc app:disable dashboard
+  ncc app:disable news
 
   # we handle this ourselves
   ncc app:disable updatenotification
 
+# ニュースのアプリを有効化しない
   # News dropped support for 32-bit -> https://github.com/nextcloud/news/issues/1423
-  if ! [[ "$ARCH" =~ armv7 ]]; then
-    ncc app:install news
-    ncc app:enable  news
-  fi
+#  if ! [[ "$ARCH" =~ armv7 ]]; then
+#    ncc app:install news
+#    ncc app:enable  news
+#  fi
+
+  # 日本の環境へ変更
+  ncc config:system:set default_phone_region --value JP
+  ncc config:system:set default_language --value ja
+  ncc config:system:set default_locale --value ja
+  ncc log:manage --timezone Asia/Tokyo
 
   # ncp-previewgenerator
   local ncver
