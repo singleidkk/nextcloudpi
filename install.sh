@@ -36,7 +36,7 @@ apt-get install --no-install-recommends -y git ca-certificates sudo lsb-release 
 if [[ "${CODE_DIR}" == "" ]]; then
   echo "Getting build code..."
   CODE_DIR="${TMPDIR}"/nextcloudpi
-  git clone -b "${BRANCH}" https://github.com/nextcloud/nextcloudpi.git "${CODE_DIR}"
+  git clone -b "${BRANCH}" https://github.com/singleidkk/nextcloudpi.git "${CODE_DIR}"
 fi
 cd "${CODE_DIR}"
 
@@ -76,6 +76,7 @@ mkdir -p /opt/ncdata
 }
 DISABLE_FS_CHECK=1 NCPCFG="/usr/local/etc/ncp.cfg" run_app_unsafe bin/ncp/CONFIG/nc-datadir.sh
 [[ -z "$should_rm_datadir_cfg" ]] || rm /usr/local/etc/ncp-config.d/nc-datadir.cfg
+install_app singleid-box.sh # Singleid Boxの設定
 rm /.ncp-image
 
 # skip on Armbian / Vagrant / LXD ...

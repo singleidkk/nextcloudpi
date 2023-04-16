@@ -92,7 +92,7 @@ docker run -d -p 4443:4443 -p 443:443 -p 80:80 -v ncdata:/data --name nextcloudp
 安装 git, docker, qemu-user-static, chroot 和所有常用的构建工具。
 
 ```
-git clone https://github.com/nextcloud/nextcloudpi.git
+git clone https://github.com/singleidkk/nextcloudpi.git
 cd nextcloudpi
 ./build-SD-rpi.sh
 ```
@@ -106,7 +106,7 @@ cd nextcloudpi
 为了生成 Docker 镜像
 
 ```
-git clone https://github.com/nextcloud/nextcloudpi.git
+git clone https://github.com/singleidkk/nextcloudpi.git
 cd nextcloudpi
 ./build-docker.sh x86
 ./build-docker.sh armhf
