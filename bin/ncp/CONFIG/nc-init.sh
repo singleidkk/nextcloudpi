@@ -141,12 +141,9 @@ EOF
   ncc app:enable nextcloudpi
 
   # enable some apps by default
-  ncc app:install passwords
-  ncc app:enable  passwords
-  ncc app:install files_external
-  ncc app:enable  files_external
-  ncc app:install user_saml
-  ncc app:enable  user_saml
+  ncc app:enable passwords
+  ncc app:enable files_external
+  ncc app:enable user_saml
 
   # デフォルトで無効にするアプリ
   ncc app:disable calendar
