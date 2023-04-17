@@ -101,7 +101,8 @@ configure()
 
   ## COPY
   cd /var/www/nextcloud
-  [[ "$BUILD_MODE" == 1 ]] || save_maintenance_mode
+  [[ -f /.ncp-image ]] || save_maintenance_mode
+#  [[ "$BUILD_MODE" == 1 ]] || save_maintenance_mode
 
   echo "moving data directory from ${SRCDIR} to ${BASEDIR}..."
 
@@ -147,7 +148,8 @@ configure()
   [[ -f /etc/fail2ban/jail.local ]] && \
   sed -i "s|logpath  =.*nextcloud.log|logpath  = ${DATADIR}/nextcloud.log|" /etc/fail2ban/jail.local
 
-  [[ "$BUILD_MODE" == 1 ]] || restore_maintenance_mode
+  [[ -f /.ncp-image ]] || restore_maintenance_mode
+#  [[ "$BUILD_MODE" == 1 ]] || restore_maintenance_mode
 
   (
     . "${BINDIR?}/SYSTEM/metrics.sh"
