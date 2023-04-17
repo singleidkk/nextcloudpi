@@ -175,7 +175,7 @@ function print_sidebar( $l /* translations l10n object */, $ticks /* wether to c
   {
     $ret .= "<li id=\"$section\"><span>{$l->__($section, $section)}</span>";
 
-    $scripts = array_diff(scandir($bin_dir . $section), array('.', '..', 'nc-wifi.sh', 'nc-info.sh'));
+    $scripts = array_diff(scandir($bin_dir . $section), array('.', '..', 'nc-wifi.sh', 'nc-info.sh', 'duckDNS.sh', 'freeDNS.sh', 'namecheapDNS.sh', 'no-ip.sh', 'NFS.sh', 'samba.sh', 'spDYN.sh', 'nc-webui.sh', 'nc-rsync.sh', 'nc-rsync-auto.sh', 'nc-update-nc-apps.sh', 'nc-update-nc-apps-auto.sh'));
     foreach ($scripts as $script)
     {
       $ncp_app  = pathinfo($script, PATHINFO_FILENAME);
