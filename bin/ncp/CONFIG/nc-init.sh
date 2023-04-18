@@ -155,6 +155,8 @@ EOF
   ncc app:disable recommendations
   ncc app:disable dashboard
   ncc app:disable news
+  ncc app:disable firstrunwizard
+  ncc app:disable survey_client
 
   # we handle this ourselves
   ncc app:disable updatenotification
@@ -171,6 +173,12 @@ EOF
   ncc config:system:set default_language --value ja
   ncc config:system:set default_locale --value ja
   ncc log:manage --timezone Asia/Tokyo
+
+  # ユーザ作成時のホームディレクトリを空にする
+  ncc config:system:set skeletondirectory
+
+  # アプリストアの無効化
+  ncc config:system:set appstoreenabled --value=false
 
   # ncp-previewgenerator
   local ncver
